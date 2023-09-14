@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4504074438450776333}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -170,7 +169,6 @@ RectTransform:
   - {fileID: 4504074438222244164}
   - {fileID: 2196603975429942786}
   m_Father: {fileID: 4504074439060493632}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -194,6 +192,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -263,13 +262,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4504074438789870747}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4504074439060493632}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4504074438789870741
 SpriteRenderer:
@@ -354,7 +353,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4504074438450776333}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -484,6 +482,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4504074439060493638}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: 2, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 1}
@@ -492,7 +491,6 @@ Transform:
   - {fileID: 4504074438789870746}
   - {fileID: 4504074438450776333}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4504074439060493633
 SpriteRenderer:
@@ -561,10 +559,10 @@ MonoBehaviour:
   upgrade: playerSpd
   amount: 2
   type: multi
-  upgrade2: 
-  amount2: 0
-  type2: 
-  twoUpgrades: 0
+  upgrade2: explosionCooldown
+  amount2: 0.6
+  type2: multi
+  twoUpgrades: 1
   downgrade: enemySpd
   downgradeAmount: 1.5
   downgradeType: multi
@@ -573,8 +571,19 @@ MonoBehaviour:
   touchingPlayer: 0
   fillAmount: 0
   fillImage: {fileID: 2646955942834166924}
-  description: player speed up 100%, enemy speed up 50%
+  description: player speed up 100%, enemy speed up 50%, explosion recharge up 40%
   upgradeDescription: {fileID: 0}
+  enemyType: 0
+  enemyTypeSprites: []
+  enemyTypeSpriteRenderer: {fileID: 0}
+  enemyTypeShowerParent: {fileID: 0}
+  enemySpawner: {fileID: 0}
+  isEnemyUnlocker: 0
+  upgradeName: null
+  fillTime: 3
+  TutorialUpgrade: 0
+  tutorial: {fileID: 0}
+  TutorialUpgrade2: 0
 --- !u!61 &4504074439060493634
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -585,6 +594,25 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -632,7 +660,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4504074438450776333}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

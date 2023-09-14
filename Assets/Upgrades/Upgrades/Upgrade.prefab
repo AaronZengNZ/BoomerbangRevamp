@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651813506550795017}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 952876751404411274}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6016034509224876454
 SpriteRenderer:
@@ -115,7 +115,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3147353206260871968}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -191,7 +190,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3147353206260871968}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -226,7 +224,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Slower Enemies
+  m_text: Slower Enemies, Faster Explosions
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -319,13 +317,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3147353206010529732}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3147353206046198268}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3147353206010529738
 SpriteRenderer:
@@ -405,6 +403,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3147353206046198270}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 1}
@@ -414,7 +413,6 @@ Transform:
   - {fileID: 3147353206260871968}
   - {fileID: 952876751404411274}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3147353206046198269
 SpriteRenderer:
@@ -483,10 +481,10 @@ MonoBehaviour:
   upgrade: enemySpd
   amount: 0.7
   type: multi
-  upgrade2: 
-  amount2: 0
-  type2: 
-  twoUpgrades: 0
+  upgrade2: explosionCooldown
+  amount2: 0.8
+  type2: multi
+  twoUpgrades: 1
   downgrade: 
   downgradeAmount: 0
   downgradeType: 
@@ -495,21 +493,25 @@ MonoBehaviour:
   touchingPlayer: 0
   fillAmount: 0
   fillImage: {fileID: 7096412476577954178}
-  description: enemy speed down 30%
+  description: enemy speed down 30%, explosion recharge up 20%
   upgradeDescription: {fileID: 0}
   enemyType: 0
   enemyTypeSprites:
   - {fileID: 21300000, guid: c300518437d7c65468f1a69e8d787077, type: 3}
-  - {fileID: 21300000, guid: f298498c8f6b5c7449570a83fb63d62a, type: 3}
   - {fileID: 21300000, guid: e7b448dff8582c74ab70401e9ae5e497, type: 3}
   - {fileID: 21300000, guid: a871d890be1a87a47a857ee69a9e9ed4, type: 3}
-  - {fileID: 21300000, guid: 12caaa34fdbbc8b4498d107719a522ae, type: 3}
   - {fileID: 21300000, guid: 509a75e045cdee149a23cba6218f4391, type: 3}
+  - {fileID: 21300000, guid: 12caaa34fdbbc8b4498d107719a522ae, type: 3}
+  - {fileID: 21300000, guid: f298498c8f6b5c7449570a83fb63d62a, type: 3}
   enemyTypeSpriteRenderer: {fileID: 6016034509224876454}
   enemyTypeShowerParent: {fileID: 4301063885675647869}
   enemySpawner: {fileID: 0}
   isEnemyUnlocker: 1
   upgradeName: null
+  fillTime: 5
+  TutorialUpgrade: 0
+  tutorial: {fileID: 0}
+  TutorialUpgrade2: 0
 --- !u!61 &3147353206046198210
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -520,6 +522,25 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -567,7 +588,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3147353206260871968}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -706,7 +726,6 @@ RectTransform:
   - {fileID: 3147353205952472682}
   - {fileID: 2507865963750011874}
   m_Father: {fileID: 3147353206046198268}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -730,6 +749,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -799,6 +819,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4301063885675647869}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.675, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -806,7 +827,6 @@ Transform:
   m_Children:
   - {fileID: 5210589081456212374}
   m_Father: {fileID: 3147353206046198268}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7110892366639087485
 SpriteRenderer:

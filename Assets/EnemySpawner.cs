@@ -19,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
     public float upgrade = 0f;
     public float enemySpawner = 0f;
     public GameObject[] enemyPrefabs;
+    public GameObject victoryCanvas;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,11 +39,23 @@ public class EnemySpawner : MonoBehaviour
     }
 
     void IncreaseEnemyStats(){
-        enemyHpMulti += 0.1f;
-        spdMulti += 0.05f;
+        enemyHpMulti += 0.05f;
+        spdMulti += 0.025f;
     }
 
     IEnumerator SummonWave(){
+        if(waveNum >= 11){
+            //destory player
+            Destroy(GameObject.Find("Player"));
+            Destroy(GameObject.Find("Boomerang"));
+            //find enemyspawner, upgrade manager and set both of them inactive
+            GameObject.Find("UpgradeManager").SetActive(false);
+            //activate gameovercanvas
+            victoryCanvas.SetActive(true);
+            //set gameOverCanvas's animator's transition bool
+            victoryCanvas.GetComponent<Animator>().SetBool("Transition", true);
+            Destroy(gameObject);
+        }
         waveIndicator.SetBool("NewWave", true);
         for(int j = 0; j < waves[(int)waveNum - 1]; j++){
             SpawnEnemy();

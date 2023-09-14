@@ -35,7 +35,6 @@ RectTransform:
   - {fileID: 3670697904525679162}
   - {fileID: 4225873142835375858}
   m_Father: {fileID: 3670697903868328761}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -59,6 +58,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -130,6 +130,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3670697903868328763}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: -2, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 1}
@@ -139,7 +140,6 @@ Transform:
   - {fileID: 3670697903840557294}
   - {fileID: 2534731979540982130}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3670697903868328760
 SpriteRenderer:
@@ -208,10 +208,10 @@ MonoBehaviour:
   upgrade: explosionDmg
   amount: 25
   type: add
-  upgrade2: 
-  amount2: 0
-  type2: 
-  twoUpgrades: 0
+  upgrade2: explosionSize
+  amount2: 0.5
+  type2: add
+  twoUpgrades: 1
   downgrade: 
   downgradeAmount: 0
   downgradeType: 
@@ -220,21 +220,25 @@ MonoBehaviour:
   touchingPlayer: 0
   fillAmount: 0
   fillImage: {fileID: 1102401671825460255}
-  description: explosion damage up by 25
+  description: explosion damage up by 25, explosion size up by 5
   upgradeDescription: {fileID: 0}
   enemyType: 0
   enemyTypeSprites:
   - {fileID: 21300000, guid: c300518437d7c65468f1a69e8d787077, type: 3}
-  - {fileID: 21300000, guid: f298498c8f6b5c7449570a83fb63d62a, type: 3}
   - {fileID: 21300000, guid: e7b448dff8582c74ab70401e9ae5e497, type: 3}
   - {fileID: 21300000, guid: a871d890be1a87a47a857ee69a9e9ed4, type: 3}
-  - {fileID: 21300000, guid: 12caaa34fdbbc8b4498d107719a522ae, type: 3}
   - {fileID: 21300000, guid: 509a75e045cdee149a23cba6218f4391, type: 3}
+  - {fileID: 21300000, guid: 12caaa34fdbbc8b4498d107719a522ae, type: 3}
+  - {fileID: 21300000, guid: f298498c8f6b5c7449570a83fb63d62a, type: 3}
   enemyTypeSpriteRenderer: {fileID: 7932933491160589554}
   enemyTypeShowerParent: {fileID: 7034866002304048356}
   enemySpawner: {fileID: 0}
   isEnemyUnlocker: 1
   upgradeName: null
+  fillTime: 5
+  TutorialUpgrade: 0
+  tutorial: {fileID: 0}
+  TutorialUpgrade2: 0
 --- !u!61 &3670697903868328759
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -245,6 +249,25 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -292,7 +315,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3670697903840557294}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -427,7 +449,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3670697903840557294}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -462,7 +483,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: More Explosion Damage
+  m_text: Better Explosions
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -555,13 +576,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3670697904669029454}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3670697903868328761}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3670697904669029452
 SpriteRenderer:
@@ -639,13 +660,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4715449601938276936}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2534731979540982130}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7932933491160589554
 SpriteRenderer:
@@ -730,7 +751,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3670697903840557294}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -799,6 +819,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7034866002304048356}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.675, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -806,7 +827,6 @@ Transform:
   m_Children:
   - {fileID: 5504455519915538955}
   m_Father: {fileID: 3670697903868328761}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3382677242080243457
 SpriteRenderer:

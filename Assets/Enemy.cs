@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,9 +23,17 @@ public class Enemy : MonoBehaviour
     public GameObject childEnemy;
     public bool spawnsChild = false;
     public string specialStat = "none";
+    public float damage = 20f;
+    Vector2 randomTargetingOffset;
+    Vector2 offsettedPlayer;
+    public float offsetSize = 1.5f;
     float maxHp = 0f;
     float speedMulti = 1f;
     float spriteSize = 1f;
+    bool touchingPlayer = false;
+    public bool tutorialTarget = false;
+    public Tutorial tutorialScript;
+    float damaget = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +43,8 @@ public class Enemy : MonoBehaviour
         if(!spawned){
             StartCoroutine(Spawn());
         }
+        //randomise random offset
+        randomTargetingOffset = new Vector2(Random.Range(-offsetSize, offsetSize), Random.Range(-offsetSize, offsetSize));
     }
 
     IEnumerator Spawn(){
@@ -62,12 +73,23 @@ public class Enemy : MonoBehaviour
         if(boomerangsTouching > 0f){
             TakeDamage();
         }
-
         if(hp <= 0){
             Die();
         }
-        //set rb velocity
-        rb.velocity = (player.transform.position - transform.position).normalized * speed * speedMulti;
+        if(touchingPlayer){
+            player.GetComponent<Player>().TakeDamage(damage * Time.deltaTime);
+        }
+        offsettedPlayer = new Vector2(player.transform.position.x + randomTargetingOffset.x, player.transform.position.y + randomTargetingOffset.y);
+        //if distance to player is less than random offset squared
+        if(Vector2.Distance(transform.position, player.transform.position) < randomTargetingOffset.sqrMagnitude + 1){
+            //
+            rb.velocity = (player.transform.position - transform.position).normalized * speed * speedMulti;
+        }
+        else{
+            //set rb velocity
+            rb.velocity = (offsettedPlayer - (Vector2)transform.position).normalized * speed * speedMulti;
+        }
+        
         if(specialStat == "wobbler"){
             //add math sin and math cos to rb velocity
             rb.velocity += new Vector2(Mathf.Sin(Time.time * 4f)*5f, Mathf.Cos(Time.time * 4f)*5f);
@@ -91,6 +113,12 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(){
         //find boomerang damage from boomerang
+        if(tutorialTarget){
+            damaget += Time.deltaTime;
+            if(damaget >= 0.3f){
+                tutorialScript.TwoChecked();
+            }
+        }
         float boomerangDamage = GameObject.Find("Boomerang").GetComponent<Boomerang>().damage;
         hp -= boomerangsTouching * boomerangDamage * Time.deltaTime;
         boomerangDamageTaken += boomerangsTouching * boomerangDamage * Time.deltaTime;
@@ -104,6 +132,15 @@ public class Enemy : MonoBehaviour
         }
     }
     public void TakeDamage(float damage){
+        if(damage == 999f){
+            //destroy gameobject
+            Destroy(gameObject);
+        }
+        if(tutorialTarget){
+            if(damage >= 50f){
+                tutorialScript.ThreeChecked();
+            }
+        }
         hp -= damage;
         //spawn damage number
         GameObject newDamageNumber = Instantiate(damageNumber, transform.position, Quaternion.identity);
@@ -122,13 +159,26 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.tag == "Boomerang"){
-            boomerangsTouching++;
+            //if boomerang is not damaging
+            if(other.gameObject.GetComponent<Boomerang>().damaging){
+                boomerangsTouching++;
+            }
+        }
+        if(other.gameObject.tag == "Player"){
+            touchingPlayer = true;
+            //deal a burst of 20% of dps
+            player.GetComponent<Player>().TakeDamage(damage * 0.2f);
         }
     }
 
     void OnTriggerExit2D(Collider2D other){
         if(other.gameObject.tag == "Boomerang"){
-            boomerangsTouching--;
+            if(boomerangsTouching > 0f){
+                boomerangsTouching--;
+            }
+        }
+        if(other.gameObject.tag == "Player"){
+            touchingPlayer = false;
         }
     }
 }

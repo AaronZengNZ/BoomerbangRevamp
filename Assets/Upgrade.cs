@@ -31,12 +31,19 @@ public class Upgrade : MonoBehaviour
     public EnemySpawner enemySpawner;
     public bool isEnemyUnlocker = false;
     public string upgradeName = "null";
+    public float fillTime = 3f;
+    public bool TutorialUpgrade = false;
+    public Tutorial tutorial;
+    public bool TutorialUpgrade2 = false;
     void Start(){
         upgradeManager = GameObject.Find("UpgradeManager").GetComponent<UpgradeManager>();
         upgradeDescription = GameObject.Find("UpgradeDescription").GetComponent<UpgradeDescription>();
         enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
     }
     void OnDestroy(){
+        if(TutorialUpgrade){
+            return;
+        }
         foreach(GameObject upgrade in GameObject.FindGameObjectsWithTag("Upgrade")){
             Destroy(upgrade);
         }
@@ -44,7 +51,7 @@ public class Upgrade : MonoBehaviour
 
     void Update(){
         if(touchingPlayer){
-            fillAmount += Time.deltaTime /3f;
+            fillAmount += Time.deltaTime /fillTime;
             fillImage.fillAmount = fillAmount;
             if(fillAmount >= 1f){
                 TakeUpgrade();
@@ -67,7 +74,18 @@ public class Upgrade : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.tag == "Player"){
             touchingPlayer = true;
-            upgradeDescription.ChangeUpgradeText(description);
+            if(TutorialUpgrade2){
+                upgradeDescription.ChangeUpgradeText(description, true);
+            }
+            else{
+                upgradeDescription.ChangeUpgradeText(description, isEnemyUnlocker);
+            }
+            if(isEnemyUnlocker){
+                upgradeDescription.ChangeEnemyText(upgradeManager.enemyDescriptions[(int)enemyType-1]);
+            }
+            if(TutorialUpgrade2){
+                upgradeDescription.ChangeEnemyText("Adds 'Default Enemy', medium health, medium speed. Also begins the game");
+            }
             upgradeDescription.upgradeShowing = true;
         }
     }
@@ -81,8 +99,19 @@ public class Upgrade : MonoBehaviour
     public void TakeUpgrade(){
         //destroy
         //add upgrade
+        if(TutorialUpgrade){
+            tutorial.FourChecked();
+            Destroy(gameObject);
+            return;
+        }
+        if(TutorialUpgrade2){
+            //find scenemanager and call loadscene gamescene
+            GameObject.Find("SceneManager").GetComponent<SceneManager>().LoadScene("GameScene");
+            return;
+        }
         if(enemyType != 0f){
-            enemySpawner.AddEnemySpawner(enemyType);
+            enemySpawner.AddEnemySpawner(enemyType-1);
+            upgradeManager.RemoveEnemyType(enemyType);
         }
         upgradeManager.IncreaseStat(upgrade, amount, type, true);
         if(twoUpgrades){

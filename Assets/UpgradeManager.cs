@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class UpgradeManager : MonoBehaviour
     public GameObject getUpgrade;
     public float[] enemyTypes;
     public float[] upgradeIds;
+    public string[] enemyDescriptions;
 
     public void CreateUpgrades(){
         //create upgrade buttons
@@ -49,7 +51,19 @@ public class UpgradeManager : MonoBehaviour
                 }
             }
             tempEnemyTypes = tempTempEnemyTypes;
+            UnityEngine.Debug.Log(tempEnemyTypes);
         }
+    }
+    public void RemoveEnemyType(float id){
+        float[] tempEnemyTypes = new float[enemyTypes.Length - 1];
+        int tempEnemyTypesIndex = 0;
+        for(int i = 0; i < enemyTypes.Length; i++){
+            if(enemyTypes[i] != id){
+                tempEnemyTypes[tempEnemyTypesIndex] = enemyTypes[i];
+                tempEnemyTypesIndex++;
+            }
+        }
+        enemyTypes = tempEnemyTypes;
     }
     public void IncreaseStat(string stat, float amount, string type,bool main = false){
         if(stat == "playerSpd"){
@@ -121,6 +135,22 @@ public class UpgradeManager : MonoBehaviour
             }
             else{
                 boomerang.returnVelocity += amount;
+            }
+        }
+        if(stat == "explosionCooldown"){
+            if(type == "multi"){
+                boomerang.explosionCooldown *= amount;
+            }
+            else{
+                boomerang.explosionCooldown += amount;
+            }
+        }
+        if(stat == "explosionSize"){
+            if(type == "multi"){
+                boomerang.explosionRadius *= amount;
+            }
+            else{
+                boomerang.explosionRadius += amount;
             }
         }
         //next wave

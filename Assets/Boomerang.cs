@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class Boomerang : MonoBehaviour
 {
     public Rigidbody2D rb;
@@ -21,6 +22,9 @@ public class Boomerang : MonoBehaviour
     bool exploded = false;
     public float explosionRadius = 3f;
     public float explosionDamage = 50f;
+    public float explosionCooldown = 2f;
+    bool canExplode = true;
+    public Image explodeCooldownSprite;
     public float damage = 10f;
     public float boomerangSize = 1f;
     public GameObject bees;
@@ -28,6 +32,9 @@ public class Boomerang : MonoBehaviour
     public GameObject flowerSprite;
     float beesCooldown = 0f;
     bool throwable = true;
+    public bool damaging = true;
+    public TextMeshProUGUI damageText;
+    public TextMeshProUGUI explosionText;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,19 +67,27 @@ public class Boomerang : MonoBehaviour
             }
         }
     }
-
+    public void SetUI(){
+        //set damage text
+        damageText.text = damage.ToString("F0") + " DPS";
+        //set explosion text
+        explosionText.text = explosionDamage.ToString("F0") + " DMG";
+    }
     // Update is called once per frame
     void Update()
     {
+        SetUI();
         //update boomerang size
         sprite.transform.localScale = new Vector3(boomerangSize, boomerangSize, boomerangSize);
         //update collider
         GetComponent<CircleCollider2D>().radius = boomerangSize / 2;
         sprite.SetActive(!exploded && !inHand);
+        damaging = true;
         if(inHand){
             rb.velocity = Vector2.zero;
             velocity = 0f;
             transform.position = playerPos.position;
+            damaging = false;
         }
         Bees();
         Explode();
@@ -106,6 +121,9 @@ public class Boomerang : MonoBehaviour
 
     public void Explode(){
         //if right mouse button is held
+        if(!canExplode){
+            return;
+        }
         if(Input.GetMouseButton(1) == false){
             return;
         }
@@ -115,7 +133,8 @@ public class Boomerang : MonoBehaviour
         exploded = true;
         //instantiate an explosion
         ParticleSystem explosionInstance = Instantiate(explosion, transform.position, Quaternion.identity);
-        //deal damage to every enemy in radius
+        //set size of explosion partcilesystem to explosionradius / 1.5
+        explosionInstance.transform.localScale = new Vector3(explosionRadius/1.5f,explosionRadius/1.5f,1);
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
         foreach(Collider2D enemy in enemies){
             if(enemy.gameObject.tag == "Enemy"){
@@ -129,6 +148,7 @@ public class Boomerang : MonoBehaviour
                 player.gameObject.GetComponent<Player>().Stun();
                 throwable = false;
                 StartCoroutine(waitAndThrowable(1.5f));
+                StartCoroutine(waitAndExplodable());
                 transform.position = playerPos.position;
                 return;
             }
@@ -137,6 +157,7 @@ public class Boomerang : MonoBehaviour
         
         throwable = false;
         StartCoroutine(waitAndThrowable(0.4f));
+        StartCoroutine(waitAndExplodable());
         //tp to player
         transform.position = playerPos.position;
     }
@@ -144,6 +165,18 @@ public class Boomerang : MonoBehaviour
     IEnumerator waitAndThrowable(float time){
         yield return new WaitForSeconds(time);
         throwable = true;
+    }
+
+    IEnumerator waitAndExplodable(){
+        canExplode = false;
+        //change explodeCooldownSprite's fill
+        float explodeCooldown = explosionCooldown;
+        while(explodeCooldown > 0){
+            explodeCooldown -= Time.deltaTime;
+            explodeCooldownSprite.fillAmount = 1 - explodeCooldown / explosionCooldown;
+            yield return null;
+        }
+        canExplode = true;
     }
 
     public void Throw()
