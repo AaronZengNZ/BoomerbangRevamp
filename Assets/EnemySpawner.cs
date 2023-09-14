@@ -17,10 +17,16 @@ public class EnemySpawner : MonoBehaviour
     public float[] wavesWithUpgrades;
     UpgradeManager upgradeManager;
     public float upgrade = 0f;
+    public float enemySpawner = 0f;
+    public GameObject[] enemyPrefabs;
     // Start is called before the first frame update
     void Start()
     {
         upgradeManager = GameObject.Find("UpgradeManager").GetComponent<UpgradeManager>();
+    }
+    public void AddEnemySpawner(float enemyType){
+        enemyWaveLists[(int)enemySpawner].enemyType = enemyPrefabs[(int)enemyType];
+        enemySpawner++;
     }
 
     public void SetAnimatorVariable(){

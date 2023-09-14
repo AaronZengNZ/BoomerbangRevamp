@@ -21,9 +21,14 @@ public class Enemy : MonoBehaviour
     public GameObject damageNumber;
     public GameObject childEnemy;
     public bool spawnsChild = false;
+    public string specialStat = "none";
+    float maxHp = 0f;
+    float speedMulti = 1f;
+    float spriteSize = 1f;
     // Start is called before the first frame update
     void Start()
     {
+        maxHp = hp;
         //find player
         player = GameObject.Find("Player");
         if(!spawned){
@@ -62,7 +67,16 @@ public class Enemy : MonoBehaviour
             Die();
         }
         //set rb velocity
-        rb.velocity = (player.transform.position - transform.position).normalized * speed;
+        rb.velocity = (player.transform.position - transform.position).normalized * speed * speedMulti;
+        if(specialStat == "wobbler"){
+            //add math sin and math cos to rb velocity
+            rb.velocity += new Vector2(Mathf.Sin(Time.time * 4f)*5f, Mathf.Cos(Time.time * 4f)*5f);
+        }
+        if(specialStat == "slime"){
+            //game gamesprite size based on hp
+            spriteSize = hp/maxHp*1.2f+0.3f;
+            speedMulti = 3f/(hp/maxHp*2f+1f);
+        }
         //if taking damage, enable damage sprite
         damageSprite.SetActive(boomerangsTouching > 0);
         FlipSprites();
@@ -99,10 +113,10 @@ public class Enemy : MonoBehaviour
     void FlipSprites(){
         //flip sprites based on velocity
         if(rb.velocity.x > 0){
-            sprite.transform.localScale = new Vector3(-1, 1, 1);
+            sprite.transform.localScale = new Vector3(-1 * spriteSize, 1 * spriteSize, 1);
         }
         else if(rb.velocity.x < 0){
-            sprite.transform.localScale = new Vector3(1, 1, 1);
+            sprite.transform.localScale = new Vector3(1 * spriteSize, 1 * spriteSize, 1);
         }
     }
 

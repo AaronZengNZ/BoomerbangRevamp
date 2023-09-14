@@ -103,10 +103,10 @@ MonoBehaviour:
   upgrade: loopyPlayer
   amount: 0
   type: setBoolTrue
-  upgrade2: 
-  amount2: 0
-  type2: 
-  twoUpgrades: 0
+  upgrade2: playerSpd
+  amount2: 1.3
+  type2: multi
+  twoUpgrades: 1
   downgrade: 
   downgradeAmount: 0
   downgradeType: 
@@ -115,8 +115,15 @@ MonoBehaviour:
   touchingPlayer: 0
   fillAmount: 0
   fillImage: {fileID: 1293345123893463746}
-  description: player loops around the sides of the screen
+  description: player loops around the sides of the screen. speed up
   upgradeDescription: {fileID: 0}
+  enemyType: 0
+  enemyTypeSprites: []
+  enemyTypeSpriteRenderer: {fileID: 0}
+  enemyTypeShowerParent: {fileID: 0}
+  enemySpawner: {fileID: 0}
+  isEnemyUnlocker: 0
+  upgradeName: null
 --- !u!61 &7485432010745719712
 BoxCollider2D:
   m_ObjectHideFlags: 0

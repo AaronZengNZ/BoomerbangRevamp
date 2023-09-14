@@ -12,26 +12,31 @@ public class UpgradeManager : MonoBehaviour
     public GameObject[] repeatableUpgrades;
     public GameObject getUpgrade;
     public float[] enemyTypes;
+    public float[] upgradeIds;
 
     public void CreateUpgrades(){
         //create upgrade buttons
         getUpgrade.SetActive(true);
         float[] tempEnemyTypes = enemyTypes;
-        GameObject[] tempRepeatableUpgrades = repeatableUpgrades;
+        float[] tempUpgradeIds = upgradeIds;
+        float upgradeIdsLeft = tempUpgradeIds.Length;
         for(int i = 0; i < upgradeButtonWaypoints.Length; i++){
             //create upgrade button
-            GameObject upgradeButton = Instantiate(tempRepeatableUpgrades[Random.Range(0, tempRepeatableUpgrades.Length)], upgradeButtonWaypoints[i].position, Quaternion.identity);
-            //set parent
-            upgradeButton.transform.SetParent(upgradeButtonWaypoints[i]);
-            GameObject[] tempTempRepeatbleUpgrades = new GameObject[tempRepeatableUpgrades.Length - 1];
-            int tempTempRepeatbleUpgradesIndex = 0;
-            for(int j = 0; j < tempRepeatableUpgrades.Length; j++){
-                if(tempRepeatableUpgrades[j] != upgradeButton){
-                    tempTempRepeatbleUpgrades[tempTempRepeatbleUpgradesIndex] = tempRepeatableUpgrades[j];
-                    tempTempRepeatbleUpgradesIndex++;
+            float randomisedUpgrade = tempUpgradeIds[(int)Random.Range(0, upgradeIdsLeft)];
+            //remove randomised upgrade from temp upgrade ids
+            float[] tempTempUpgradeIds = new float[tempUpgradeIds.Length - 1];
+            int tempTempUpgradeIdsIndex = 0;
+            for(int j = 0; j < tempUpgradeIds.Length; j++){
+                if(tempUpgradeIds[j] != randomisedUpgrade){
+                    tempTempUpgradeIds[tempTempUpgradeIdsIndex] = tempUpgradeIds[j];
+                    tempTempUpgradeIdsIndex++;
                 }
             }
-            tempRepeatableUpgrades = tempTempRepeatbleUpgrades;
+            tempUpgradeIds = tempTempUpgradeIds;
+            upgradeIdsLeft--;
+            GameObject upgradeButton = Instantiate(repeatableUpgrades[(int)randomisedUpgrade], upgradeButtonWaypoints[i].position, Quaternion.identity);
+            //set parent
+            upgradeButton.transform.SetParent(upgradeButtonWaypoints[i]);
             //set upgrade enemy type
             upgradeButton.GetComponent<Upgrade>().enemyType = tempEnemyTypes[Random.Range(0, tempEnemyTypes.Length)];
             //use a for loop to remove

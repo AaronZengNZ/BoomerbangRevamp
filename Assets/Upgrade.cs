@@ -25,11 +25,16 @@ public class Upgrade : MonoBehaviour
     public string description = "placeholder";
     public UpgradeDescription upgradeDescription;
     public float enemyType = 0f;
-    public GameObject[] enemyTypeShower;
+    public Sprite[] enemyTypeSprites;
+    public SpriteRenderer enemyTypeSpriteRenderer;
     public GameObject enemyTypeShowerParent;
+    public EnemySpawner enemySpawner;
+    public bool isEnemyUnlocker = false;
+    public string upgradeName = "null";
     void Start(){
         upgradeManager = GameObject.Find("UpgradeManager").GetComponent<UpgradeManager>();
         upgradeDescription = GameObject.Find("UpgradeDescription").GetComponent<UpgradeDescription>();
+        enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
     }
     void OnDestroy(){
         foreach(GameObject upgrade in GameObject.FindGameObjectsWithTag("Upgrade")){
@@ -49,12 +54,12 @@ public class Upgrade : MonoBehaviour
             fillAmount = 0f;
             fillImage.fillAmount = fillAmount;
         }
-        if(enemyType != 0f){
-            enemyTypeShower[(int)enemyType].SetActive(true);
-            enemyTypeShowerParent.SetActive(true);
-        }
-        else{
-            enemyTypeShowerParent.SetActive(false);
+        if(isEnemyUnlocker){
+            if(enemyType <= 0f){
+                enemyType = 1f;
+            }
+                enemyTypeSpriteRenderer.sprite = enemyTypeSprites[(int)enemyType-1];
+                enemyTypeShowerParent.SetActive(true);
         }
     }
 
@@ -76,6 +81,9 @@ public class Upgrade : MonoBehaviour
     public void TakeUpgrade(){
         //destroy
         //add upgrade
+        if(enemyType != 0f){
+            enemySpawner.AddEnemySpawner(enemyType);
+        }
         upgradeManager.IncreaseStat(upgrade, amount, type, true);
         if(twoUpgrades){
             upgradeManager.IncreaseStat(upgrade2, amount2, type2);

@@ -322,20 +322,27 @@ MonoBehaviour:
   upgrade: homingBoomerang
   amount: 5
   type: add
-  upgrade2: returnVelocity
-  amount2: 0.7
+  upgrade2: boomerangDmg
+  amount2: 2
   type2: multi
   twoUpgrades: 1
-  downgrade: 
-  downgradeAmount: 0
-  downgradeType: 
-  hasDowngrade: 0
+  downgrade: returnVelocity
+  downgradeAmount: 0.7
+  downgradeType: multi
+  hasDowngrade: 1
   upgradeManager: {fileID: 0}
   touchingPlayer: 0
   fillAmount: 0
   fillImage: {fileID: 3125632105835486489}
-  description: boomerang follows your mouse cursor a bit
+  description: boomerang follows your mouse cursor a bit. boomerang damage doubled
   upgradeDescription: {fileID: 0}
+  enemyType: 0
+  enemyTypeSprites: []
+  enemyTypeSpriteRenderer: {fileID: 0}
+  enemyTypeShowerParent: {fileID: 0}
+  enemySpawner: {fileID: 0}
+  isEnemyUnlocker: 0
+  upgradeName: null
 --- !u!61 &3556214668890608855
 BoxCollider2D:
   m_ObjectHideFlags: 0
