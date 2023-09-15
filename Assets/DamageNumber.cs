@@ -23,7 +23,7 @@ public class DamageNumber : MonoBehaviour
 
     void Update(){
         //set text to damage
-        text.text = damage.ToString();
+        text.text = Mathf.Ceil(damage).ToString();
         //scale text size with damage square rooted
         text.fontSize = originalTextSize * (0.8f+Mathf.Sqrt(damage/2f)/10f);
     }

@@ -13,8 +13,17 @@ public class UpgradeManager : MonoBehaviour
     public GameObject[] repeatableUpgrades;
     public GameObject getUpgrade;
     public float[] enemyTypes;
-    public float[] upgradeIds;
+    float[] upgradeIds;
     public string[] enemyDescriptions;
+    public GameObject emptySign;
+
+    void Start(){
+        //set upgradeIds based on repeatable ugprades
+        upgradeIds = new float[repeatableUpgrades.Length];
+        for(int i = 0; i < repeatableUpgrades.Length; i++){
+            upgradeIds[i] = i;
+        }
+    }
 
     public void CreateUpgrades(){
         //create upgrade buttons
@@ -152,6 +161,26 @@ public class UpgradeManager : MonoBehaviour
             else{
                 boomerang.explosionRadius += amount;
             }
+        }
+        if(stat == "maxHp"){
+            if(type == "multi"){
+                player.maxHp *= amount;
+            }
+            else{
+                player.maxHp += amount;
+            }
+        }
+        if(stat == "healthRegen"){
+            if(type == "multi"){
+                player.regenSpd *= amount;
+            }
+            else{
+                player.regenSpd += amount;
+            }
+        }
+        if(stat == "emptySign"){
+            //instantiate an empty sign at a random position
+            Instantiate(emptySign, new Vector3(Random.Range(-6.8f, 6.8f), Random.Range(-3.4f, 3.4f), 0), Quaternion.identity);
         }
         //next wave
         if(main == true){

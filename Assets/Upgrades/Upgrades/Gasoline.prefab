@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 3670697903868328758}
   - component: {fileID: 3670697903868328759}
   m_Layer: 0
-  m_Name: Upgrade (3)
+  m_Name: Gasoline
   m_TagString: Upgrade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

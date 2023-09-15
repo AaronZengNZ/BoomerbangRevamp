@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     public GameObject walls;
     public Image HealthBar;
     public float hp = 100f;
-    float maxHp = 0f;
+    public float maxHp = 100f;
     public float regenSpd = 10f;
     public TextMeshProUGUI speedText;
     public GameObject gameOverCanvas;
@@ -32,9 +32,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hp > maxHp){
-            maxHp = hp;
-        }
         Vector2 movement = new Vector2(Input.GetAxis("Horizontal") * speed * spdMulti, Input.GetAxis("Vertical") * speed * spdMulti);
         playerRB.velocity = movement;
         if(stunned){
