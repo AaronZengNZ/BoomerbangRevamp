@@ -20,14 +20,43 @@ public class EnemySpawner : MonoBehaviour
     public float enemySpawner = 0f;
     public GameObject[] enemyPrefabs;
     public GameObject victoryCanvas;
+    public GameObject[] selectedEnemyPrefabs;
+    public float phase = 0f;
+    public float bossHpMulti = 1f;
+    public float[] bossWaves;
+    public GameObject[] bosses;
     // Start is called before the first frame update
     void Start()
     {
         upgradeManager = GameObject.Find("UpgradeManager").GetComponent<UpgradeManager>();
+        PersistData persistData;
+        persistData = GameObject.Find("PersistData").GetComponent<PersistData>();
+        //set hp to persistData's hp
+        enemyHpMulti = persistData.enemyHpMulti;
+        //set speed to persistData's speed
+        spdMulti = persistData.enemySpdMulti;
+        bossHpMulti = persistData.bossHpMulti;
     }
     public void AddEnemySpawner(float enemyType){
         enemyWaveLists[(int)enemySpawner].enemyType = enemyPrefabs[(int)enemyType];
+        //add enemyPrefabs[enemyType] to selectedEnemyPrefabs
+        float enemyIndex = 0f;
+        GameObject[] tempSelectedEnemyPrefabs;
+        tempSelectedEnemyPrefabs = new GameObject[selectedEnemyPrefabs.Length + 1];
+        for(int i = 0; i < selectedEnemyPrefabs.Length; i++){
+            tempSelectedEnemyPrefabs[i] = selectedEnemyPrefabs[i];
+        }
+        tempSelectedEnemyPrefabs[selectedEnemyPrefabs.Length] = enemyPrefabs[(int)enemyType];
+        selectedEnemyPrefabs = tempSelectedEnemyPrefabs;
         enemySpawner++;
+    }
+
+    public void ResetSpawners(){
+        //empty out all of the enemywaveLists's enemy types
+        for(int i = 0; i < enemyWaveLists.Length; i++){
+            enemyWaveLists[i].enemyType = null;
+        }
+        phase++;
     }
 
     public void SetAnimatorVariable(){
@@ -44,7 +73,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     IEnumerator SummonWave(){
-        if(waveNum >= 11){
+        if(waveNum >= 21){
             //destory player
             Destroy(GameObject.Find("Player"));
             Destroy(GameObject.Find("Boomerang"));
@@ -56,6 +85,31 @@ public class EnemySpawner : MonoBehaviour
             victoryCanvas.GetComponent<Animator>().SetBool("Transition", true);
             Destroy(gameObject);
         }
+        //check wave for boss
+        for(int i = 0; i < bossWaves.Length; i++){
+            if(waveNum == bossWaves[i]){
+                ResetSpawners();
+                enemySpawner = 0f;
+                waveIndicator.SetBool("NewWave", true);
+                GameObject boss = Instantiate(bosses[i], Vector2.zero, Quaternion.identity);
+                boss.GetComponent<BossScript>().hp *= bossHpMulti;
+                boss.GetComponent<BossScript>().maxHp *= bossHpMulti;
+                //wait until boss is dead
+                while(boss != null){
+                    yield return null;
+                }
+                //deal 999 damage to every enemy
+                foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy")){
+                    enemy.GetComponent<Enemy>().TakeDamage(999f);
+                }
+                //upgradeManager's phase add one
+                upgradeManager.phase++;
+                //create boss upgrades
+                upgradeManager.CreateBossUpgrades();
+                waveNum++;
+                yield break;
+            }
+        }   
         waveIndicator.SetBool("NewWave", true);
         for(int j = 0; j < waves[(int)waveNum - 1]; j++){
             SpawnEnemy();
@@ -78,8 +132,8 @@ public class EnemySpawner : MonoBehaviour
         //increment wave number
         waveNum++;
         if(waveNum == wavesWithUpgrades[(int)upgrade]+1f){
-            upgradeManager.CreateUpgrades();
             upgrade++;
+            upgradeManager.CreateUpgrades();
         }
         else{
             NextWave();
@@ -110,12 +164,36 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy(){
         //find somewhere random and instantiate enemy
         Vector2 spawnLocation = new Vector2(Random.Range(-8f, 8f), Random.Range(-4f, 4f));
-        GameObject enemy = Instantiate(enemyPrefab, spawnLocation, Quaternion.identity);
-        enemy.GetComponent<Enemy>().speed *= spdMulti;
-        enemy.GetComponent<Enemy>().hp *= enemyHpMulti;
+        GameObject enemy;
+        if(phase >= 1f){
+            //instantiate random enemy of selected enemies
+            enemy = Instantiate(selectedEnemyPrefabs[(int)Random.Range(0, phase*2f)], spawnLocation, Quaternion.identity);
+        }
+        else{
+            enemy = Instantiate(enemyPrefab, spawnLocation, Quaternion.identity);
+        }
+        if(enemy.transform.childCount > 0){
+            for(int i = 0; i < enemy.transform.childCount; i++){
+                if(enemy.transform.GetChild(i).GetComponent<Enemy>() != null){
+                    enemy.transform.GetChild(i).GetComponent<Enemy>().speed *= spdMulti;
+                    enemy.transform.GetChild(i).GetComponent<Enemy>().hp *= enemyHpMulti;
+                }
+            }
+        }
+        //if enemy has an enemy script
+        if(enemy.GetComponent<Enemy>() != null){
+            enemy.GetComponent<Enemy>().speed *= spdMulti;
+            enemy.GetComponent<Enemy>().hp *= enemyHpMulti;
+        }
     }
 
     void Update(){
         waveTextIndicator.text = "Wave " + waveNum;
+        //check boss wave
+        for(int i = 0; i < bossWaves.Length; i++){
+            if(waveNum == bossWaves[i]){
+                waveTextIndicator.text = "Boss Wave";
+            }
+        }
     }
 }

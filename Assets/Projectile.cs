@@ -19,6 +19,11 @@ public class Projectile : MonoBehaviour
             other.gameObject.GetComponent<Enemy>().TakeDamage(projectileDamage);
             Destroy(gameObject);
         }
+        //also check for enemyboss
+        if(other.gameObject.tag == "EnemyBoss"){
+            other.gameObject.GetComponent<BossScript>().TakeDamage(projectileDamage);
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame

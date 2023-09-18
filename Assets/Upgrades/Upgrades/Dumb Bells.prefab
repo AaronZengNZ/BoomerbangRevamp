@@ -447,13 +447,19 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a871d890be1a87a47a857ee69a9e9ed4, type: 3}
   - {fileID: 21300000, guid: 509a75e045cdee149a23cba6218f4391, type: 3}
   - {fileID: 21300000, guid: 12caaa34fdbbc8b4498d107719a522ae, type: 3}
-  - {fileID: 21300000, guid: f298498c8f6b5c7449570a83fb63d62a, type: 3}
+  - {fileID: 21300000, guid: c85e5d542534145e390f07788abc0797, type: 3}
+  - {fileID: 21300000, guid: e85703c2dfe654429be9b2ea92f71746, type: 3}
+  - {fileID: 21300000, guid: 2ed2d657b51204873abec207461cc7a8, type: 3}
   enemyTypeSpriteRenderer: {fileID: 4407964024090911432}
   enemyTypeShowerParent: {fileID: 5521258038364483549}
   enemySpawner: {fileID: 0}
   isEnemyUnlocker: 1
   upgradeName: null
   fillTime: 5
+  TutorialUpgrade: 0
+  tutorial: {fileID: 0}
+  TutorialUpgrade2: 0
+  OneTimeUpgrade: 0
 --- !u!61 &3711413720538995909
 BoxCollider2D:
   m_ObjectHideFlags: 0

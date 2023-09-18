@@ -7,6 +7,8 @@ TagManager:
   - Upgrade
   - Enemy
   - Boomerang
+  - EnemyBoss
+  - Persist
   layers:
   - Default
   - TransparentFX
@@ -14,11 +16,11 @@ TagManager:
   - 
   - Water
   - UI
-  - UITop
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Boomerang
+  - EnemyProjectile
+  - Walls
   - 
   - 
   - 

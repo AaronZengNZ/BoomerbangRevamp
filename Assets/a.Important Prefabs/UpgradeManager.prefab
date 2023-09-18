@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &710422936822943389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1339743873070811173}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1339743873070811173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710422936822943389}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.6, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6767074532275405505}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &918964510591173193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9140386149839910621}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9140386149839910621
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918964510591173193}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.6, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6767074532275405505}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1875239663165255346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7514106071125606372}
+  m_Layer: 0
+  m_Name: GameObject (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7514106071125606372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875239663165255346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6767074532275405505}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8011406396738048206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6767074532275405505}
+  - component: {fileID: 2212342819319511658}
+  m_Layer: 0
+  m_Name: UpgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6767074532275405505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8011406396738048206}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.042675726}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9140386149839910621}
+  - {fileID: 1339743873070811173}
+  - {fileID: 7514106071125606372}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2212342819319511658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8011406396738048206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6511c38dcc3e5e44799e165ac0e231b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  boomerang: {fileID: 0}
+  enemySpawner: {fileID: 0}
+  upgradeButtonWaypoints:
+  - {fileID: 9140386149839910621}
+  - {fileID: 1339743873070811173}
+  - {fileID: 7514106071125606372}
+  oneTimeUpgrades:
+  - {fileID: 4504074439060493638, guid: 03b5b6768cbc1a149b04dd4af02afa16, type: 3}
+  - {fileID: 9198255505075443916, guid: 5063c287eac733e4e9ea07ce4668bffc, type: 3}
+  - {fileID: 3556214668890608851, guid: d89e7196fc38da34f9823f793a072f68, type: 3}
+  - {fileID: 7485432010745719716, guid: 5f70124dcbc36714292ef9a5fabc8595, type: 3}
+  - {fileID: 4504074439060493638, guid: d48fa95d1371f4f759f23b1322a1402e, type: 3}
+  repeatableUpgrades:
+  - {fileID: 3147353206046198270, guid: 65b81ce5855a7a344a7efe7f287119fb, type: 3}
+  - {fileID: 4277693438027944673, guid: a57e5a8902ad84b4aae55a747377fced, type: 3}
+  - {fileID: 3672220312641086251, guid: d7ba13fd4dac2824f95dc7779c6d59b5, type: 3}
+  - {fileID: 3670697903868328763, guid: 030052b73bdae1d4dac5466909c95145, type: 3}
+  - {fileID: 2767557688914809862, guid: 48a9cf07ad215d04e93fbb0ea5e88301, type: 3}
+  - {fileID: 3711413720538995905, guid: 2184bb4a6cfcf2444be5e06266042ff2, type: 3}
+  - {fileID: 7106688953133684779, guid: cad235482b54543ab9a263ac33d4bdf3, type: 3}
+  - {fileID: 2883050977390185711, guid: 3d6482fb52f454066a2f341026f5fbf2, type: 3}
+  - {fileID: 5916191934111187174, guid: ae3f3ab93414745968b9e346bbd30f99, type: 3}
+  - {fileID: 6854321134915792584, guid: b3502afc39a974ca9ba6719174d17e89, type: 3}
+  getUpgrade: {fileID: 0}
+  enemyTypes:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  enemyDescriptions:
+  - Adds 'The Square', high hp, slow speed, spawns 'Small Square' on death
+  - Adds 'Triplets', low hp, fast speed, has triple enemies
+  - Adds 'Looper', medium hp, medium speed, does fast, big loops
+  - Adds 'The Tank', extremely high hp, slow speed
+  - Adds 'Slime', high hp, slow speed, speeds up and gets smaller with less hp
+  emptySign: {fileID: 522126311090142185, guid: c26b3d65e30a74b5e8f589f26e947ac1, type: 3}
+  blueButterfly: {fileID: 522126311090142185, guid: c0f2f0169ea494e9eb58a667c4cd7687, type: 3}
+  phase: 0
+  enemyTypesSelected: 0

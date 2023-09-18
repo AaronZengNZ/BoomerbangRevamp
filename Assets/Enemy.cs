@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,6 +34,11 @@ public class Enemy : MonoBehaviour
     bool touchingPlayer = false;
     public bool tutorialTarget = false;
     public Tutorial tutorialScript;
+    public GameObject projectile;
+    public float firerate = 0.4f;
+    public Transform shootPosition;
+    public bool shootsProjectiles = false;
+    public bool instaSpawn = false;
     float damaget = 0f;
     // Start is called before the first frame update
     void Start()
@@ -48,6 +54,20 @@ public class Enemy : MonoBehaviour
     }
 
     IEnumerator Spawn(){
+        if(instaSpawn){
+            collider.enabled = true;
+            rb.simulated = true;
+            spawned = true;
+            //enable warning sprite
+            warningSprite.SetActive(false);
+            gameSprite.SetActive(true);
+            //start shoot coroutine
+            if(shootsProjectiles){
+            StartCoroutine(Shoot());
+            }
+            //break
+            yield break;
+        }
         gameSprite.SetActive(false);
         warningSprite.SetActive(true);
         //disable collider and rb
@@ -62,6 +82,20 @@ public class Enemy : MonoBehaviour
         //enable warning sprite
         warningSprite.SetActive(false);
         gameSprite.SetActive(true);
+        //start shoot coroutine
+        if(shootsProjectiles){
+            StartCoroutine(Shoot());
+        }
+    }
+
+    IEnumerator Shoot(){
+        while(true){
+            yield return new WaitForSeconds(1f / firerate * Random.Range(0.8f, 1.2f));
+            //spawn projectile
+            GameObject newProjectile = Instantiate(projectile, shootPosition.position, Quaternion.identity);
+            //rotate projectile towards player
+            newProjectile.transform.right = (player.transform.position - transform.position).normalized;  
+        }
     }
 
     // Update is called once per frame
@@ -82,8 +116,12 @@ public class Enemy : MonoBehaviour
         offsettedPlayer = new Vector2(player.transform.position.x + randomTargetingOffset.x, player.transform.position.y + randomTargetingOffset.y);
         //if distance to player is less than random offset squared
         if(Vector2.Distance(transform.position, player.transform.position) < randomTargetingOffset.sqrMagnitude + 1){
-            //
-            rb.velocity = (player.transform.position - transform.position).normalized * speed * speedMulti;
+            if(!shootsProjectiles){
+                rb.velocity = (player.transform.position - transform.position).normalized * speed * speedMulti;
+            }
+            else{
+                rb.velocity = (offsettedPlayer - (Vector2)transform.position).normalized * speed * speedMulti;
+            }
         }
         else{
             //set rb velocity
@@ -92,7 +130,7 @@ public class Enemy : MonoBehaviour
         
         if(specialStat == "wobbler"){
             //add math sin and math cos to rb velocity
-            rb.velocity += new Vector2(Mathf.Sin(Time.time * 4f)*5f, Mathf.Cos(Time.time * 4f)*5f);
+            rb.velocity += new Vector2(Mathf.Sin(Time.time * 4f)*2f, Mathf.Cos(Time.time * 4f)*2f);
         }
         if(specialStat == "slime"){
             //game gamesprite size based on hp
@@ -107,6 +145,14 @@ public class Enemy : MonoBehaviour
     void Die(){
         if(spawnsChild){
             Instantiate(childEnemy, transform.position, Quaternion.identity);
+        }
+        if(specialStat == "exploder"){
+            //spawn 5 projectiles at random angles
+            float tempRandom = Random.Range(0f, 100f)/100f;
+            for(int i = 0; i < 9; i++){
+                GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
+                newProjectile.transform.right = new Vector2(Mathf.Cos((i+tempRandom) * 40f * Mathf.Deg2Rad), Mathf.Sin((i+tempRandom) * 40f * Mathf.Deg2Rad));
+            }
         }
         Destroy(gameObject);
     }

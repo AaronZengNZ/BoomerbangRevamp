@@ -26,7 +26,15 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        PersistData persistData;
+        persistData = GameObject.Find("PersistData").GetComponent<PersistData>();
+        //set hp to persistData's hp
+        hp = persistData.playerMaxHP;
+        //set maxHp to persistData's maxHp
+        maxHp = persistData.playerMaxHP;
+        //set speed to persistData's speed
+        speed = persistData.playerSpeed;
+        regenSpd = persistData.playerRegen;
     }
 
     // Update is called once per frame

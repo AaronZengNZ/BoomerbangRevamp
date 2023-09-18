@@ -35,6 +35,7 @@ public class Upgrade : MonoBehaviour
     public bool TutorialUpgrade = false;
     public Tutorial tutorial;
     public bool TutorialUpgrade2 = false;
+    public bool OneTimeUpgrade = false;
     void Start(){
         upgradeManager = GameObject.Find("UpgradeManager").GetComponent<UpgradeManager>();
         upgradeDescription = GameObject.Find("UpgradeDescription").GetComponent<UpgradeDescription>();
@@ -112,6 +113,10 @@ public class Upgrade : MonoBehaviour
         if(enemyType != 0f){
             enemySpawner.AddEnemySpawner(enemyType-1);
             upgradeManager.RemoveEnemyType(enemyType);
+        }
+        if(OneTimeUpgrade){
+            //remove one time upgrade
+            upgradeManager.RemoveOneTimeUpgrade(upgradeName);
         }
         upgradeManager.IncreaseStat(upgrade, amount, type, true);
         if(twoUpgrades){

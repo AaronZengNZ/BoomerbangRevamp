@@ -123,11 +123,12 @@ MonoBehaviour:
   enemyTypeShowerParent: {fileID: 0}
   enemySpawner: {fileID: 0}
   isEnemyUnlocker: 0
-  upgradeName: null
-  fillTime: 3
+  upgradeName: Sideways Eight
+  fillTime: 4
   TutorialUpgrade: 0
   tutorial: {fileID: 0}
   TutorialUpgrade2: 0
+  OneTimeUpgrade: 1
 --- !u!61 &7485432010745719712
 BoxCollider2D:
   m_ObjectHideFlags: 0

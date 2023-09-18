@@ -10,12 +10,17 @@ public class UpgradeManager : MonoBehaviour
     public Boomerang boomerang;
     public EnemySpawner enemySpawner;
     public Transform[] upgradeButtonWaypoints;
+    public GameObject[] oneTimeUpgrades;
     public GameObject[] repeatableUpgrades;
     public GameObject getUpgrade;
     public float[] enemyTypes;
     float[] upgradeIds;
+    public float[] bossUpgradeIds;
     public string[] enemyDescriptions;
     public GameObject emptySign;
+    public GameObject blueButterfly;
+    public float phase = 0f;
+    public float enemyTypesSelected = 0f;
 
     void Start(){
         //set upgradeIds based on repeatable ugprades
@@ -23,6 +28,55 @@ public class UpgradeManager : MonoBehaviour
         for(int i = 0; i < repeatableUpgrades.Length; i++){
             upgradeIds[i] = i;
         }
+        //set bossUpgradeIds based on one time upgrades
+        bossUpgradeIds = new float[oneTimeUpgrades.Length];
+        for(int i = 0; i < oneTimeUpgrades.Length; i++){
+            bossUpgradeIds[i] = i;
+        }
+        CreateBossUpgrades();
+    }
+
+    public void CreateBossUpgrades(){
+        //create one time upgrades(they do not have an enemy)
+        getUpgrade.SetActive(true);
+        float[] tempUpgradeIds = bossUpgradeIds;
+        float upgradeIdsLeft = tempUpgradeIds.Length;
+        for(int i = 0; i < upgradeButtonWaypoints.Length; i++){
+            //create upgrade button
+            float randomisedUpgrade = tempUpgradeIds[(int)Mathf.Floor(UnityEngine.Random.Range(0, upgradeIdsLeft))];
+            upgradeIdsLeft--;
+            //remove randomised upgrade from temp upgrade ids
+            float[] tempTempUpgradeIds = new float[tempUpgradeIds.Length - 1];
+            int tempTempUpgradeIdsIndex = 0;
+            for(int j = 0; j < tempUpgradeIds.Length; j++){
+                if(tempUpgradeIds[j] != randomisedUpgrade){
+                    tempTempUpgradeIds[tempTempUpgradeIdsIndex] = tempUpgradeIds[j];
+                    tempTempUpgradeIdsIndex++;
+                }
+            }
+            tempUpgradeIds = tempTempUpgradeIds;
+            GameObject upgradeButton = Instantiate(oneTimeUpgrades[(int)randomisedUpgrade], upgradeButtonWaypoints[i].position, Quaternion.identity);
+            //set parent
+            upgradeButton.transform.SetParent(upgradeButtonWaypoints[i]);
+        }
+    }
+
+    public void RemoveOneTimeUpgrade(string name){
+        //remove one time upgrade
+        float[] tempUpgradeIds = new float[oneTimeUpgrades.Length - 1];
+        int tempUpgradeIdsIndex = 0;
+        int upgradeId = 0;
+        bool reached = false;
+        for(int i = 0; i < oneTimeUpgrades.Length; i++){
+            if(oneTimeUpgrades[i].name != name){
+                tempUpgradeIds[tempUpgradeIdsIndex] = i;
+                tempUpgradeIdsIndex++;
+                if(reached == false){
+                    upgradeId++;
+                }
+            }else{reached=true;}
+        }
+        bossUpgradeIds = tempUpgradeIds;
     }
 
     public void CreateUpgrades(){
@@ -31,7 +85,8 @@ public class UpgradeManager : MonoBehaviour
         float[] tempEnemyTypes = enemyTypes;
         float[] tempUpgradeIds = upgradeIds;
         float upgradeIdsLeft = tempUpgradeIds.Length;
-        for(int i = 0; i < upgradeButtonWaypoints.Length; i++){
+        float tempEnemySelected = 0f;
+        for(int i = 0; i < upgradeButtonWaypoints.Length+1f; i++){
             //create upgrade button
             float randomisedUpgrade = tempUpgradeIds[(int)Random.Range(0, upgradeIdsLeft)];
             //remove randomised upgrade from temp upgrade ids
@@ -49,8 +104,9 @@ public class UpgradeManager : MonoBehaviour
             //set parent
             upgradeButton.transform.SetParent(upgradeButtonWaypoints[i]);
             //set upgrade enemy type
-            upgradeButton.GetComponent<Upgrade>().enemyType = tempEnemyTypes[Random.Range(0, tempEnemyTypes.Length)];
-            //use a for loop to remove
+            float randomNumber = Random.Range(0, (4f + phase*3f) - enemyTypesSelected - tempEnemySelected);
+            UnityEngine.Debug.Log(tempEnemyTypes[(int)((4f + phase*3f) - enemyTypesSelected - tempEnemySelected)]);
+            upgradeButton.GetComponent<Upgrade>().enemyType = tempEnemyTypes[(int)randomNumber];
             float[] tempTempEnemyTypes = new float[tempEnemyTypes.Length - 1];
             int tempTempEnemyTypesIndex = 0;
             for(int j = 0; j < tempEnemyTypes.Length; j++){
@@ -59,8 +115,8 @@ public class UpgradeManager : MonoBehaviour
                     tempTempEnemyTypesIndex++;
                 }
             }
+            tempEnemySelected++;
             tempEnemyTypes = tempTempEnemyTypes;
-            UnityEngine.Debug.Log(tempEnemyTypes);
         }
     }
     public void RemoveEnemyType(float id){
@@ -73,6 +129,7 @@ public class UpgradeManager : MonoBehaviour
             }
         }
         enemyTypes = tempEnemyTypes;
+        enemyTypesSelected++;
     }
     public void IncreaseStat(string stat, float amount, string type,bool main = false){
         if(stat == "playerSpd"){
@@ -181,6 +238,10 @@ public class UpgradeManager : MonoBehaviour
         if(stat == "emptySign"){
             //instantiate an empty sign at a random position
             Instantiate(emptySign, new Vector3(Random.Range(-6.8f, 6.8f), Random.Range(-3.4f, 3.4f), 0), Quaternion.identity);
+        }
+        if(stat == "blueButterfly"){
+            //instantiate a blue butterfly at a random position
+            Instantiate(blueButterfly, new Vector3(Random.Range(-6.8f, 6.8f), Random.Range(-3.4f, 3.4f), 0), Quaternion.identity);
         }
         //next wave
         if(main == true){

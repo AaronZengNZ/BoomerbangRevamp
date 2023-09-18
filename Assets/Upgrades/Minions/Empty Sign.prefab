@@ -45,10 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075b81d1785274cf7a203eb25b271f49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 30
+  damage: 0
+  proportionateDamage: explosion
+  damageProportion: 0.08
   attackCooldown: 0.4
   attackRange: 0.5
   moveSpeed: 0.05
+  target: player
 --- !u!1 &8974929395945371097
 GameObject:
   m_ObjectHideFlags: 0

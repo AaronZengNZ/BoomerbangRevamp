@@ -38,7 +38,14 @@ public class Boomerang : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        PersistData persistData;
+        persistData = GameObject.Find("PersistData").GetComponent<PersistData>();
+        //set damage to persistData's damage
+        damage = persistData.boomerangDps;
+        //set explosionDamage to persistData's explosionDamage
+        explosionDamage = persistData.explosionDmg;
+        //set explosionRadius to persistData's explosionRadius
+        explosionRadius = persistData.explosionSize;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -141,6 +148,13 @@ public class Boomerang : MonoBehaviour
                 enemy.gameObject.GetComponent<Enemy>().TakeDamage(explosionDamage);
             }
         }
+        //check for enemybosses
+        Collider2D[] enemyBosses = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+        foreach(Collider2D enemyBoss in enemyBosses){
+            if(enemyBoss.gameObject.tag == "EnemyBoss"){
+                enemyBoss.gameObject.GetComponent<BossScript>().TakeDamage(explosionDamage);
+            }
+        }
         //if the player is in radius also stun player
         Collider2D[] players = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
         foreach(Collider2D player in players){
@@ -185,7 +199,7 @@ public class Boomerang : MonoBehaviour
             return;
         }
         //return if distance to mouse is less than 0.5
-        if (Vector2.Distance(transform.position, mousePosition) < 1.2f)
+        if (Vector2.Distance(transform.position, mousePosition) < 0.5f + boomerangSize / 2f)
         {
             return;
         }
